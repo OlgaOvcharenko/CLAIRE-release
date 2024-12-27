@@ -149,6 +149,96 @@ def prepare_Simulation(data_root):
 
     return X, X.index.values, X.columns.values, metadata
 
+def prepare_PBMC_our(data_root):
+    batch_key = 'batch'
+    label_key = 'CellType'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/PBMC.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_our(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_ImmuneAtlas_our(data_root):
+    batch_key = 'batch'
+    label_key = 'cell_type'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmuneAtlas.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_MCA_our(data_root):
+    batch_key = 'batch'
+    label_key = 'CellType'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/MCA.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Lung_our(data_root):
+    batch_key = 'batch'
+    label_key = 'cell_type'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Lung.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
 def prepare_Lung(data_root):
     # data_root: /home/.../Data/dataset3/simul1_dropout_005_b1_500_b2_900
     batch_key = 'batch'
@@ -181,6 +271,25 @@ def prepare_ImmHuman(data_root):
     gene_name = adata.var_names
     cell_name = adata.obs_names.values
     df_meta = adata.obs[[batch_key, label_key, pseudo_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+
+def prepare_ImmHuman_our(data_root):
+    batch_key = 'batch'
+    label_key = 'CellType'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmHuman.h5ad')
+
+    X = sps.csr_matrix(adata.layers['counts'].T)  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
 
     df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
     df_meta[configs.label_key] = df_meta[label_key].astype('category')
@@ -464,7 +573,14 @@ def prepare_dataset(data_dir):
                     'Muris_60000': prepare_Muris_60000,
                     'Muris_120000': prepare_Muris_120000,
                     'PBMCMultome': prepare_PBMCMultome,
-                    'new_dataset': prepare_NewDataset
+                    'new_dataset': prepare_NewDataset,
+                    
+                    'ImmHuman_our': prepare_ImmHuman_our,
+                    'Pancreas_our': prepare_Pancreas_our,
+                    'ImmuneAtlas_our': prepare_ImmuneAtlas_our,
+                    'Lung_our': prepare_Lung_our,
+                    'MCA_our': prepare_MCA_our,
+                    'PBMC_our': prepare_PBMC_our,
     }
 
     # dataset 3 

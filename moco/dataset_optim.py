@@ -77,10 +77,10 @@ class ClaireDataset(Dataset):
 
         if mode=='train':
             # 1. computing anchors
-            # self.compute_anchors(self.X, self.batch_label, self.cname, self.gname, k_anchor=k_anchor, filtering=True)
+            self.compute_anchors(self.X, self.batch_label, self.cname, self.gname, k_anchor=5, filtering=True)
 
             # 2. use the anchors exported from seurat
-            self.load_anchors(anchor_path)
+            # self.load_anchors(anchor_path)
             
             self.getMnnDict()
             self.exclude_sampleWithoutMNN(exclude_fn)
