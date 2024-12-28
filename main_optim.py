@@ -55,6 +55,7 @@ sane_ps += f'adjustLr={args.adjustLr}_schedule={args.schedule}'             # tr
 
 log_dir = join(configs.out_root, f'{args.dname}/{sane_ps}')
 os.makedirs(log_dir, exist_ok=True)
+print(log_dir)
 
 for ri in range(args.n_repeat):
     os.makedirs(join(log_dir, f'weights{ri+1}'), exist_ok=True)     # folder used to save model weights
@@ -178,24 +179,26 @@ for ri in range(args.n_repeat):
         model = load_ckpt(model, join(log_dir, f'weights{ri+1}'), idx)
         lat_emb, latl2_emb = evaluate(val_loader, model, args)
         
+        print("Inference")
         ad_lat = embPipe(latl2_emb, train_dataset.metadata) 
+        print(ad_lat)
         ad_lat.write(join(log_dir, f'results{ri+1}/ad_{idx}.h5ad'))
 
         tmp_emb[idx] = ad_lat 
 
     # saving plot
-    fig2, axes = plt.subplots(len(args.visualize_ckpts), 2, figsize=(16, 6*len(args.visualize_ckpts)))
-    for i, idx in enumerate(args.visualize_ckpts):
-        print(f'=====================> {idx}')
-        
-        sc.pl.umap(tmp_emb[idx], color=[configs.batch_key], show=False, ax=axes[i, 0])
+    #fig2, axes = plt.subplots(len(args.visualize_ckpts), 2, figsize=(16, 6*len(args.visualize_ckpts)))
+    #for i, idx in enumerate(args.visualize_ckpts):
+    #    print(f'=====================> {idx}')
+    #    
+    #    sc.pl.umap(tmp_emb[idx], color=[configs.batch_key], show=False, ax=axes[i, 0])
 
-        label_key = configs.label_key if configs.label_key in tmp_emb[idx].columns else configs.batch_key
-        sc.pl.umap(tmp_emb[idx], color=[label_key], show=False, ax=axes[i, 1])
-        
-        axes[i, 0].set_title(f'epoch={idx}')
-        axes[i, 1].set_title(f'epoch={idx}')
+    #    label_key = configs.label_key if configs.label_key in tmp_emb[idx].columns else configs.batch_key
+    #    sc.pl.umap(tmp_emb[idx], color=[label_key], show=False, ax=axes[i, 1])
+    #    
+    #    axes[i, 0].set_title(f'epoch={idx}')
+    #    axes[i, 1].set_title(f'epoch={idx}')
 
-    fig2.savefig(join(log_dir, f'results{ri+1}/umap.png'), facecolor='white')
+    #fig2.savefig(join(log_dir, f'results{ri+1}/umap.png'), facecolor='white')
 
 
