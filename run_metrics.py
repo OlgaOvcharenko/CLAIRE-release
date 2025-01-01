@@ -26,7 +26,7 @@ _BATCH_METRICS = BatchCorrection(graph_connectivity=True,
 
 
 def evaluate_model(adata, batch_key="batch", cell_type_label="cell_type_l1"):
-    names_obs = ['X_pca','new']
+    names_obs = ['new']
     print(adata)
     bm = Benchmarker(
                 adata,
@@ -66,57 +66,53 @@ only_files = ['outputs/']
 for mypath in only_files:
     #filenames = next(walk(mypath), (None, None, []))[2]  # [] if no file 
     filenames = [os.path.join(dp, f) for dp, dn, filenames in os.walk(mypath) for f in filenames if os.path.splitext(f)[1] == '.h5ad']
-    print(filenames)
-    exit()
+    
+    # filenames = ["outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_20.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_10.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_120.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_40.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_80.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_20.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_10.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_120.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_40.h5ad", "outputs/ImmHuman_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=120_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_80.h5ad", "outputs/PBMC_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[10]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=True_schedule=[10]/results1/ad_100.h5ad", "outputs/PBMC_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[10]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=True_schedule=[10]/results2/ad_100.h5ad", "outputs/Lung_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[5]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_100.h5ad", "outputs/Lung_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[5]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_100.h5ad", "outputs/MCA_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[4]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_100.h5ad", "outputs/MCA_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[4]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_100.h5ad", "outputs/Pancreas_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results1/ad_100.h5ad", "outputs/Pancreas_our/knn=10_alpha=0.5_augSet=['int']_anc-schedl=[2]_filter=gmm_yita=0.5_eps=100_lr=0.0001_batch-size=256_adjustLr=False_schedule=[10]/results2/ad_100.h5ad"]
+
     for file in filenames:
-        if True:
-            data = file.split("_")[2].split(".")[0]
-            if data == "ImmuneAtlas":
-                cell_type_label = "cell_type"
-                batch = "batchlb"
-                adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmuneAtlas.h5ad')
+        data = file.split("/")[1].split("_")[0]
 
-            elif data == "Lung":
-                cell_type_label = "cell_type"
-                batch = "batch"
-                adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Lung.h5ad')
+        if data == "ImmuneAtlas":
+            cell_type_label = "cell_type"
+            batch = "batchlb"
+            adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmuneAtlas.h5ad')
 
-                continue
+        elif data == "Lung":
+            cell_type_label = "cell_type"
+            batch = "batch"
+            adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Lung.h5ad')
 
-            elif data == "MCA":
-                cell_type_label = "CellType"
-                batch = "batch"
-                adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/MCA.h5ad')
+        elif data == "MCA":
+            cell_type_label = "CellType"
+            batch = "batch"
+            adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/MCA.h5ad')
 
-                continue
+        elif data == "Pancreas":
+            cell_type_label = "celltype"
+            batch = "batch"
+            adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas.h5ad')
 
-            elif data == "Pancreas":
-                cell_type_label = "celltype"
-                batch = "batch"
-                adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas.h5ad')
+        elif data == "PBMC":
+            cell_type_label = "CellType"
+            batch = "batch"
+            adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/PBMC.h5ad')
 
-            elif data == "PBMC":
-                cell_type_label = "CellType"
-                batch = "batch"
-                adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/PBMC.h5ad')
-
-            elif data == "ImmHuman":
-                cell_type_label = "CellType"
-                batch = "batch"
-                adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmHuman.h5ad')
-
-                continue
-                
-            else:
-                continue
-
-            print(data)
+        elif data == "ImmHuman":
+            cell_type_label = "CellType"
+            batch = "batch"
+            adata_RNA = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmHuman.h5ad')
             
-            adata_RNA.obsm["new"] = pd.read_csv(mypath + file, header=None).to_numpy()
+        else:
+            continue
 
-            sc.tl.pca(adata_RNA)
+        print(data)
+        
+        adata_RNA.obsm["new"] = sc.read_h5ad(file).X
 
-            df = evaluate_model(adata=adata_RNA, batch_key=batch, cell_type_label=cell_type_label)
-            
-            print(df)
-            df.to_csv(f'{mypath}/bc/{data}_unscaled.csv')
+        df = evaluate_model(adata=adata_RNA, batch_key=batch, cell_type_label=cell_type_label)
+        
+        print(df)
+        if file.split("/")[3] == 'results1':
+            df.to_csv(f'results/bc1/{data}_unscaled.csv')
+        else:
+            df.to_csv(f'results/bc2/{data}_unscaled.csv')
