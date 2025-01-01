@@ -186,7 +186,7 @@ def prepare_Pancreas_our(data_root):
     return X, gene_name, cell_name, df_meta
 
 def prepare_ImmuneAtlas_our(data_root):
-    batch_key = 'batch'
+    batch_key = 'batchlb'
     label_key = 'cell_type'
 
     # ensure row is gene
