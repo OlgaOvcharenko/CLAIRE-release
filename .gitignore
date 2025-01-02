@@ -1,3 +1,4 @@
 data/
 moco/__pycache__/
 logs/
+outputs/

@@ -3,7 +3,7 @@ import numpy as np
 class Config(object):
     # data directory root
     data_root = '../data'
-    out_root  = '../outputs'
+    out_root  = 'outputs'
 
     # model configs
     n_hvgs = in_dim = 2000  # n_hvgs
