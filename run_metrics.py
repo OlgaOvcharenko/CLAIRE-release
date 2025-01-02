@@ -116,4 +116,7 @@ for mypath in only_files:
             df.to_csv(f'results/bc1/{data}_unscaled.csv')
         else:
             df.to_csv(f'results/bc2/{data}_unscaled.csv')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5ae7f88dc5048730e06c5e49acb4906f6547524f
