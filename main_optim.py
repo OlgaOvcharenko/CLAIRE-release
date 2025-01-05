@@ -63,6 +63,8 @@ for ri in range(args.n_repeat):
 
     # Data loading code
     traindir = os.path.join(configs.data_root, args.dname)
+    evaldir = os.path.join(configs.data_root_query, args.dname_query)
+
     train_dataset = ClaireDataset(
         traindir,
         mode='train',
@@ -74,8 +76,19 @@ for ri in range(args.n_repeat):
         exclude_fn=(args.dname!='MouseCellAtlas'),
         verbose=1
         )
+    
     val_dataset = ClaireDataset(
         traindir,
+        mode='val',
+        select_hvg=args.select_hvg,
+        scale=False,
+        knn=args.knn,
+        alpha=args.alpha,
+        verbose=0
+        )
+    
+    val_dataset_query = ClaireDataset(
+        evaldir,
         mode='val',
         select_hvg=args.select_hvg,
         scale=False,
@@ -98,6 +111,13 @@ for ri in range(args.n_repeat):
 
     val_loader = torch.utils.data.DataLoader(
             val_dataset, 
+            batch_size=args.batch_size, 
+            num_workers=args.workers, 
+            shuffle=False, 
+            drop_last=False)
+
+    val_loader_query = torch.utils.data.DataLoader(
+            val_dataset_query, 
             batch_size=args.batch_size, 
             num_workers=args.workers, 
             shuffle=False, 
@@ -182,9 +202,15 @@ for ri in range(args.n_repeat):
         print("Inference")
         ad_lat = embPipe(latl2_emb, train_dataset.metadata) 
         print(ad_lat)
-        ad_lat.write(join(log_dir, f'results{ri+1}/ad_{idx}.h5ad'))
+        ad_lat.write(join(log_dir, f'results{ri+1}/ad_{idx}_ref.h5ad'))
 
         tmp_emb[idx] = ad_lat 
+
+        print("Inference query")
+        lat_emb, latl2_emb = evaluate(val_loader_query, model, args)
+        ad_lat = embPipe(latl2_emb, val_dataset_query.metadata) 
+        print(ad_lat)
+        ad_lat.write(join(log_dir, f'results{ri+1}/ad_{idx}_query.h5ad'))
 
     # saving plot
     #fig2, axes = plt.subplots(len(args.visualize_ckpts), 2, figsize=(16, 6*len(args.visualize_ckpts)))

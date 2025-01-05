@@ -3,6 +3,7 @@ import numpy as np
 class Config(object):
     # data directory root
     data_root = '../data'
+    data_root_query = '../data'
     out_root  = 'outputs'
 
     # model configs

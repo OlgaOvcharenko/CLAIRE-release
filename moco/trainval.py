@@ -65,6 +65,8 @@ def get_args():
     # dataset
     parser.add_argument('--dname', default='Pancreas', type=str,
                         help='dataset name')
+    parser.add_argument('--dname_query', default='Pancreas', type=str,
+                        help='dataset name')
     parser.add_argument('--select_hvg', default=2000, type=int, 
                         help='number of hvgs')                  # 5000 for Muris dataset
     parser.add_argument('--scale', action='store_true', 

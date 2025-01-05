@@ -77,7 +77,7 @@ class ClaireDataset(Dataset):
 
         if mode=='train':
             # 1. computing anchors
-            self.compute_anchors(self.X, self.batch_label, self.cname, self.gname, k_anchor=5, filtering=True)
+            self.compute_anchors(self.X, self.batch_label, self.cname, self.gname, k_anchor=5, filtering=False)
 
             # 2. use the anchors exported from seurat
             # self.load_anchors(anchor_path)

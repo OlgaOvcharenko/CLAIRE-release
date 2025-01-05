@@ -185,12 +185,193 @@ def prepare_Pancreas_our(data_root):
 
     return X, gene_name, cell_name, df_meta
 
+def prepare_Pancreas_Mutaro(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Mutaro_qr.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Segerstolpe(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Segerstolpe_qr.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Wang(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Wang_qr.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Xin(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Xin_qr.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Mutaro_query(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Mutaro_qr_query.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Segerstolpe_query(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Segerstolpe_qr_query.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Wang_query(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Wang_qr_query.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_Pancreas_Xin_query(data_root):
+    batch_key = 'batch'
+    label_key = 'celltype'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/Pancreas_Xin_qr_query.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+
 def prepare_ImmuneAtlas_our(data_root):
     batch_key = 'batchlb'
     label_key = 'cell_type'
 
     # ensure row is gene
     adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmuneAtlas.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_ImmuneAtlas_our_ref(data_root):
+    batch_key = 'batchlb'
+    label_key = 'cell_type'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmuneAtlas_qr.h5ad')
+
+    X = adata.layers['counts'].A.T  # gene by cell
+
+    gene_name = adata.var_names
+    cell_name = adata.obs_names.values
+    df_meta = adata.obs[[batch_key, label_key]].copy()
+
+    df_meta[configs.batch_key] = df_meta[batch_key].astype('category')
+    df_meta[configs.label_key] = df_meta[label_key].astype('category')
+
+    return X, gene_name, cell_name, df_meta
+
+def prepare_ImmuneAtlas_our_query(data_root):
+    batch_key = 'batchlb'
+    label_key = 'cell_type'
+
+    # ensure row is gene
+    adata = sc.read_h5ad('/cluster/home/oovcharenko/Olga_Data/ImmuneAtlas_qr_query.h5ad')
 
     X = adata.layers['counts'].A.T  # gene by cell
 
@@ -581,6 +762,19 @@ def prepare_dataset(data_dir):
                     'Lung_our': prepare_Lung_our,
                     'MCA_our': prepare_MCA_our,
                     'PBMC_our': prepare_PBMC_our,
+                    
+                    'Pancreas_Mutaro': prepare_Pancreas_Mutaro,
+                    'Pancreas_Segerstolpe': prepare_Pancreas_Segerstolpe,
+                    'Pancreas_Wang': prepare_Pancreas_Wang,
+                    'Pancreas_Xin': prepare_Pancreas_Xin,
+
+                    'Pancreas_Mutaro_query': prepare_Pancreas_Mutaro_query,
+                    'Pancreas_Segerstolpe_query': prepare_Pancreas_Segerstolpe_query,
+                    'Pancreas_Wang_query': prepare_Pancreas_Wang_query,
+                    'Pancreas_Xin_query': prepare_Pancreas_Xin_query,
+
+                    'ImmuneAtlas_our_ref': prepare_ImmuneAtlas_our_ref,
+                    'ImmuneAtlas_our_query': prepare_ImmuneAtlas_our_query,
     }
 
     # dataset 3 
