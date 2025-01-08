@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score, f1_score
 import numpy as np
 
 only_files = ['results1/', 'results2/']
-datasets = ['Pancreas_Xin'] # 'Pancreas_Mutaro', 'Pancreas_Segerstolpe', 'Pancreas_Wang', 'Pancreas_Xin'
+datasets = ['Pancreas_Mutaro', 'Pancreas_Segerstolpe', 'Pancreas_Wang', 'Pancreas_Xin']
 
 
 cell_type_label = "celltype"
@@ -26,16 +26,16 @@ for dataset in datasets:
         embedding_ref = sc.read_h5ad("outputs/" + f"{dataset}/{folder}/ad_100_ref.h5ad").X
         embedding_query = sc.read_h5ad("outputs/" + f"{dataset}/{folder}/ad_100_query.h5ad").X
         
-        # exclude_bool = list(set(
-        #     list(set(adata_query.obs[cell_type_label].tolist()) - set(adata_ref.obs[cell_type_label].tolist())) + 
-        #     list(set(adata_ref.obs[cell_type_label].tolist()) - set(adata_query.obs[cell_type_label].tolist()))))
+        exclude_bool = list(set(
+            list(set(adata_query.obs[cell_type_label].tolist()) - set(adata_ref.obs[cell_type_label].tolist())) + 
+            list(set(adata_ref.obs[cell_type_label].tolist()) - set(adata_query.obs[cell_type_label].tolist()))))
         # exclude_ref = adata_ref.obs[cell_type_label].isin(exclude_bool)!= True
         # adata_ref = adata_ref[exclude_ref]
         # embedding_ref = embedding_ref[exclude_ref]
 
-        # exclude_query = adata_query.obs[cell_type_label].isin(exclude_bool)!= True
-        # adata_query = adata_query[exclude_query]
-        # embedding_query = embedding_query[exclude_query]
+        exclude_query = adata_query.obs[cell_type_label].isin(exclude_bool)!= True
+        adata_query = adata_query[exclude_query]
+        embedding_query = embedding_query[exclude_query]
 
         knn = KNeighborsClassifier(n_neighbors=5)
         knn.fit(embedding_ref, adata_ref.obs[cell_type_label].tolist())
@@ -69,16 +69,16 @@ for dataset in datasets:
         embedding_ref = sc.read_h5ad("outputs/" + f"{dataset}/{folder}/ad_100_ref.h5ad").X
         embedding_query = sc.read_h5ad("outputs/" + f"{dataset}/{folder}/ad_100_query.h5ad")
 
-        # exclude_bool = list(set(
-        #     list(set(adata_query.obs[cell_type_label].tolist()) - set(adata_ref.obs[cell_type_label].tolist())) + 
-        #     list(set(adata_ref.obs[cell_type_label].tolist()) - set(adata_query.obs[cell_type_label].tolist()))))
+        exclude_bool = list(set(
+            list(set(adata_query.obs[cell_type_label].tolist()) - set(adata_ref.obs[cell_type_label].tolist())) + 
+            list(set(adata_ref.obs[cell_type_label].tolist()) - set(adata_query.obs[cell_type_label].tolist()))))
         # exclude_ref = adata_ref.obs[cell_type_label].isin(exclude_bool)!= True
         # adata_ref = adata_ref[exclude_ref]
         # embedding_ref = embedding_ref[exclude_ref]
 
-        # exclude_query = adata_query.obs[cell_type_label].isin(exclude_bool)!= True
-        # adata_query = adata_query[exclude_query]
-        # embedding_query = embedding_query[exclude_query]
+        exclude_query = adata_query.obs[cell_type_label].isin(exclude_bool)!= True
+        adata_query = adata_query[exclude_query]
+        embedding_query = embedding_query[exclude_query]
 
         knn = KNeighborsClassifier(n_neighbors=5)
         knn.fit(embedding_ref, adata_ref.obs[cell_type_label].tolist())
